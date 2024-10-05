@@ -1,0 +1,29 @@
+{
+    "name": "FilamentSeo",
+    "alias": "filament-seo",
+    "description": {
+        "ar": "Manage and generate SEO tags and integrate your website with Google SEO services",
+        "en": "Manage and generate SEO tags and integrate your website with Google SEO services",
+        "gr": "Manage and generate SEO tags and integrate your website with Google SEO services",
+        "sp": "Manage and generate SEO tags and integrate your website with Google SEO services"
+    },
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "TomatoPHP\\FilamentSeo\\FilamentSeoServiceProvider"
+    ],
+    "files": [],
+    "title": {
+        "ar": "SEO Manager",
+        "en": "SEO Manager",
+        "gr": "SEO Manager",
+        "sp": "SEO Manager"
+    },
+    "color": "#007dff",
+    "icon": "heroicon-c-magnifying-glass",
+    "placeholder": "https://raw.githubusercontent.com/tomatophp/filament-seo/master/arts/3x1io-tomato-seo.jpg",
+    "type": "plugin",
+    "version": "v1.0.0",
+    "github" : "https://github.com/tomatophp/filament-seo",
+    "docs" : "https://github.com/tomatophp/filament-seo"
+}
