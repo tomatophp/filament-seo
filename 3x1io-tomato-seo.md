@@ -10,5 +10,5 @@ github_repository: tomatophp/filament-seo
 has_dark_theme: true
 has_translations: true
 versions: [3]
-publish_date: 2024-10-02
+publish_date: 2024-10-07
 ---

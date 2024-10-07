@@ -4,14 +4,14 @@ namespace TomatoPHP\FilamentSeo\Services;
 
 /**
  *
- * @method static SearchConsole google()
+ * @method static SearchConsole google(string $client='service_account')
  *
  */
 class FilamentSeoServices
 {
-    public function google(): SearchConsole
+    public function google(string $client='service_account'): SearchConsole
     {
-        $client = new SearchConsoleClient(new \Google_Client());
-        return new SearchConsole($client);
+        $token = SearchConsoleClientFactory::createForConfig(config('filament-seo'));
+        return (new SearchConsole($token));
     }
 }

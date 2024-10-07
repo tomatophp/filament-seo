@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Facade;
 use TomatoPHP\FilamentSeo\Services\SearchConsole;
 
 /**
- * @method SearchConsole google()
+ * @method static SearchConsole google(string $client='service_account')
  */
 class FilamentSeo extends Facade
 {
