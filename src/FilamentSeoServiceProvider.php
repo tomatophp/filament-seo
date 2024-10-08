@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use TomatoPHP\FilamentSeo\Exceptions\InvalidConfiguration;
 use TomatoPHP\FilamentSeo\Services\FilamentSeoServices;
+use TomatoPHP\FilamentSeo\Views\Components\Meta;
 
 
 class FilamentSeoServiceProvider extends ServiceProvider
@@ -62,18 +63,30 @@ class FilamentSeoServiceProvider extends ServiceProvider
         $this->guardAgainstInvalidConfiguration(config('filament-seo'));
 
 
-        Blade::directive('filamentSEO', function ($expression) {
-            return   view('filament-seo::tags')->render() . "\n" .
-                view('filament-seo::google-analytics')->render() . "\n" .
-                view('filament-seo::axeptio')->render() . "\n" .
-                view('filament-seo::google-tag')->render() . "\n" .
-                view('filament-seo::google-search-console')->render();
+        Blade::directive('filamentSEO', function () {
+            return   view('filament-seo::directive');
         });
+
+        $this->loadViewComponentsAs('filament',[
+            Meta::class
+        ]);
+
+
     }
+
 
     public function boot(): void
     {
         //you boot methods here
+    }
+
+    private static function getSections(){
+        return app()->view->getSections();
+    }
+
+
+    private function multiLang($value){
+        return app()->getLocale() === 'en' ? str($value)->explode('|')[0]??$value : str($value)->explode('|')[1]??$value;
     }
 
     /**
