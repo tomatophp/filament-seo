@@ -62,7 +62,7 @@ class FilamentSeoServiceProvider extends ServiceProvider
         $this->guardAgainstInvalidConfiguration(config('filament-seo'));
 
 
-        Blade::directive('filamentSEO', function () {
+        Blade::directive('filamentSEO', function ($expression) {
             return   view('filament-seo::tags')->render() . "\n" .
                 view('filament-seo::google-analytics')->render() . "\n" .
                 view('filament-seo::axeptio')->render() . "\n" .
