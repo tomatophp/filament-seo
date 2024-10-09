@@ -60,8 +60,6 @@ class FilamentSeoServiceProvider extends ServiceProvider
             return new FilamentSeoServices();
         });
 
-        $this->guardAgainstInvalidConfiguration(config('filament-seo'));
-
 
         Blade::directive('filamentSEO', function () {
             return   view('filament-seo::directive');
@@ -78,30 +76,5 @@ class FilamentSeoServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //you boot methods here
-    }
-
-    private static function getSections(){
-        return app()->view->getSections();
-    }
-
-
-    private function multiLang($value){
-        return app()->getLocale() === 'en' ? str($value)->explode('|')[0]??$value : str($value)->explode('|')[1]??$value;
-    }
-
-    /**
-     * @param  array|null  $searchConsoleConfig
-     *
-     * @throws InvalidConfiguration
-     */
-    protected function guardAgainstInvalidConfiguration(array $searchConsoleConfig = null): void
-    {
-        if ($searchConsoleConfig['auth_type'] == 'service_account' && ! file_exists($searchConsoleConfig['connections']['service_account']['application_credentials'])) {
-            throw InvalidConfiguration::credentialsJsonDoesNotExist($searchConsoleConfig['connections']['service_account']['application_credentials']);
-        }
-
-        if ($searchConsoleConfig['auth_type'] == 'oauth_json' && ! file_exists($searchConsoleConfig['connections']['oauth_json']['auth_config'])) {
-            throw InvalidConfiguration::credentialsJsonDoesNotExist($searchConsoleConfig['connections']['oauth_json']['auth_config']);
-        }
     }
 }
