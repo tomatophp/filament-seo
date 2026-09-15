@@ -4,10 +4,10 @@ namespace TomatoPHP\FilamentSeo;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use TomatoPHP\FilamentSeo\Console\FilamentSeoInstall;
 use TomatoPHP\FilamentSeo\Exceptions\InvalidConfiguration;
 use TomatoPHP\FilamentSeo\Services\FilamentSeoServices;
 use TomatoPHP\FilamentSeo\Views\Components\Meta;
-
 
 class FilamentSeoServiceProvider extends ServiceProvider
 {
@@ -16,65 +16,61 @@ class FilamentSeoServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //Register generate command
+        // Register generate command
         $this->commands([
-           \TomatoPHP\FilamentSeo\Console\FilamentSeoInstall::class,
+            FilamentSeoInstall::class,
         ]);
 
-        //Register Config file
+        // Register Config file
         $this->mergeConfigFrom(__DIR__.'/../config/filament-seo.php', 'filament-seo');
 
-        //Publish Config
+        // Publish Config
         $this->publishes([
-           __DIR__.'/../config/filament-seo.php' => config_path('filament-seo.php'),
+            __DIR__.'/../config/filament-seo.php' => config_path('filament-seo.php'),
         ], 'filament-seo-config');
 
-        //Register Migrations
+        // Register Migrations
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
-        //Publish Migrations
+        // Publish Migrations
         $this->publishes([
-           __DIR__.'/../database/migrations' => database_path('migrations'),
+            __DIR__.'/../database/migrations' => database_path('migrations'),
         ], 'filament-seo-migrations');
-        //Register views
+        // Register views
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'filament-seo');
 
-        //Publish Views
+        // Publish Views
         $this->publishes([
-           __DIR__.'/../resources/views' => resource_path('views/vendor/filament-seo'),
+            __DIR__.'/../resources/views' => resource_path('views/vendor/filament-seo'),
         ], 'filament-seo-views');
 
-        //Register Langs
+        // Register Langs
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'filament-seo');
 
-        //Publish Lang
+        // Publish Lang
         $this->publishes([
-           __DIR__.'/../resources/lang' => base_path('lang/vendor/filament-seo'),
+            __DIR__.'/../resources/lang' => base_path('lang/vendor/filament-seo'),
         ], 'filament-seo-lang');
 
-        //Register Routes
+        // Register Routes
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
-        //Publish Routes
+        // Publish Routes
         $this->app->bind('filament-seo', function () {
-            return new FilamentSeoServices();
+            return new FilamentSeoServices;
         });
 
+        // Compile to PHP that renders on every request, so the tags follow the current settings.
+        Blade::directive('filamentSEO', fn (): string => '<?php echo view(\'filament-seo::directive\')->render(); ?>');
 
-        Blade::directive('filamentSEO', function () {
-            return   view('filament-seo::directive');
-        });
-
-        $this->loadViewComponentsAs('filament',[
-            Meta::class
+        $this->loadViewComponentsAs('filament', [
+            Meta::class,
         ]);
-
 
     }
 
-
     public function boot(): void
     {
-        //you boot methods here
+        // you boot methods here
     }
 }

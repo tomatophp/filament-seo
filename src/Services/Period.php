@@ -1,6 +1,7 @@
 <?php
 
 namespace TomatoPHP\FilamentSeo\Services;
+
 use Carbon\Carbon;
 use TomatoPHP\FilamentSeo\Exceptions\InvalidPeriod;
 
@@ -14,7 +15,7 @@ class Period
 
     public static function create(Carbon $startDate, Carbon $endDate): self
     {
-        return new static($startDate, $endDate);
+        return new self($startDate, $endDate);
     }
 
     public function __construct(Carbon $startDate, Carbon $endDate)

@@ -2,7 +2,6 @@
 
 namespace TomatoPHP\FilamentSeo\Filament\Pages\Traits;
 
-use BezhanSalleh\FilamentShield\Support\Utils;
 use Filament\Facades\Filament;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Str;
@@ -11,7 +10,7 @@ trait HasShield
 {
     public function booted(): void
     {
-        if(filament('filament-seo')->isShieldAllowed()){
+        if (filament('filament-seo')->isShieldAllowed()) {
             $this->beforeBooted();
 
             if (! static::canAccess()) {
@@ -36,40 +35,36 @@ trait HasShield
         }
     }
 
-    protected function beforeBooted(): void
-    {
-    }
+    protected function beforeBooted(): void {}
 
-    protected function afterBooted(): void
-    {
-    }
+    protected function afterBooted(): void {}
 
-    protected function beforeShieldRedirects(): void
-    {
-    }
+    protected function beforeShieldRedirects(): void {}
 
     protected function getShieldRedirectPath(): string
     {
         return Filament::getUrl();
     }
 
+    /**
+     * Same page permission name as filament-settings-hub (filament-shield 4+), only when filament-shield is installed.
+     */
     protected static function getPermissionName(): string
     {
+        if (! class_exists('BezhanSalleh\FilamentShield\Support\Utils')) {
+            return '';
+        }
+
         return Str::of(class_basename(static::class))
-            ->prepend(
-                Str::of(Utils::getPagePermissionPrefix())
-                    ->append('_')
-                    ->toString()
-            )
+            ->prepend('View:')
             ->toString();
     }
 
     public static function canAccess(): bool
     {
-        if(filament('filament-seo')->isShieldAllowed()){
+        if (filament('filament-seo')->isShieldAllowed()) {
             return Filament::auth()->user()->can(static::getPermissionName());
-        }
-        else {
+        } else {
             return true;
         }
     }

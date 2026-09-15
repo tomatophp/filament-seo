@@ -2,7 +2,9 @@
 
 namespace TomatoPHP\FilamentSeo\Services;
 
+use Exception;
 use Google_Client;
+use Google_Service_Indexing;
 use Google_Service_Webmasters;
 use GuzzleHttp\Client;
 use Illuminate\Support\Arr;
@@ -23,7 +25,6 @@ class SearchConsoleClient
     /**
      * SearchConsoleClient constructor.
      *
-     * @param  Google_Client  $googleClient
      *
      * @internal param Google_Service_Webmasters $service
      */
@@ -36,9 +37,8 @@ class SearchConsoleClient
      * @param  string  $siteUrl
      * @param  int  $rows
      * @param  \Google_Service_Webmasters_SearchAnalyticsQueryRequest  $request
-     * @return Collection
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function performQuery($siteUrl, $rows, $request): Collection
     {
@@ -46,7 +46,7 @@ class SearchConsoleClient
 
         $maxQueries = 2000;
         $currentRequest = 1;
-        $dataRows = new Collection();
+        $dataRows = new Collection;
 
         while ($currentRequest < $maxQueries) {
             $startRow = ($currentRequest - 1) * self::CHUNK_SIZE;
@@ -90,7 +90,7 @@ class SearchConsoleClient
                 $dataRows->put($uniqueHash, $item);
             }
 
-            //Stop if the requested row count are reached
+            // Stop if the requested row count are reached
             if ($dataRows->count() >= $rows) {
                 break;
             }
@@ -101,9 +101,6 @@ class SearchConsoleClient
         return $dataRows->take($rows);
     }
 
-    /**
-     * @param  string  $quotaUser
-     */
     public function setQuotaUser(string $quotaUser)
     {
         $quotaUser = md5($quotaUser);
@@ -119,38 +116,27 @@ class SearchConsoleClient
         $this->googleClient->setHttpClient($guzzleClient);
     }
 
-    /**
-     * @param  string  $accessToken
-     */
     public function setAccessToken(string $accessToken)
     {
         $this->googleClient->setAccessToken($accessToken);
     }
 
-    /**
-     * @return Google_Client
-     */
     public function getGoogleClient(): Google_Client
     {
         return $this->googleClient;
     }
 
-    /**
-     * @return Google_Service_Webmasters
-     */
     public function getWebmastersService(): Google_Service_Webmasters
     {
         return new Google_Service_Webmasters($this->googleClient);
     }
 
-    public function getIndexingService(): \Google_Service_Indexing
+    public function getIndexingService(): Google_Service_Indexing
     {
-        return new \Google_Service_Indexing($this->googleClient);
+        return new Google_Service_Indexing($this->googleClient);
     }
 
     /**
-     * @param $row
-     * @param $request
      * @return string
      */
     private function getUniqueItemHash($row, $request)

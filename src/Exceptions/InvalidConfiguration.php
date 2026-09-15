@@ -6,8 +6,8 @@ use Exception;
 
 class InvalidConfiguration extends Exception
 {
-    public static function credentialsJsonDoesNotExist($path)
+    public static function credentialsJsonDoesNotExist($path): self
     {
-        return new static("Could not find a credentials file at `{$path}`.");
+        return new self("Could not find a credentials file at `{$path}`.");
     }
 }

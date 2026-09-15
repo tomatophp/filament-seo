@@ -18,16 +18,13 @@ class GoogleIndexURLJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        public ?string $url=null,
-        public ?string $client='service_account'
-    )
-    {
+        public ?string $url = null,
+        public ?string $client = 'service_account'
+    ) {
         //
     }
 
-
     /**
-     * @return void
      * @throws Exception
      */
     public function handle(): void

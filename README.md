@@ -8,11 +8,21 @@
 
 Manage and generate SEO tags and integrate your website with Google SEO services
 
+## Version Compatibility
+
+| Plugin | Filament | Laravel | PHP |
+|--------|----------|---------|-----|
+| 5.x    | 5.x      | 12.x - 13.x | 8.2+ |
+| 1.x    | 3.x      | 10.x - 11.x | 8.1+ |
+
 ## Installation
 
 ```bash
 composer require tomatophp/filament-seo
 ```
+
+The settings are stored with [Filament Settings Hub](https://github.com/tomatophp/filament-settings-hub), which creates the `settings` table, so you do not need to publish the spatie/laravel-settings migration yourself.
+
 after install your package please run this command
 
 ```bash
@@ -35,7 +45,8 @@ GOOGLE_CREDENTIALS=
 
 ## Screenshots
 
-![Setting](https://raw.githubusercontent.com/tomatophp/filament-seo/master/arts/setting.png)
+![Settings](https://raw.githubusercontent.com/tomatophp/filament-seo/master/arts/seo-settings-light.png)
+![Settings Dark](https://raw.githubusercontent.com/tomatophp/filament-seo/master/arts/seo-settings-dark.png)
 ![Indexing](https://raw.githubusercontent.com/tomatophp/filament-seo/master/arts/indexing.png)
 
 ## Features

@@ -2,6 +2,8 @@
 
 namespace TomatoPHP\FilamentSeo\Services;
 
+use Exception;
+
 /**
  * Exponential backoff implementation.
  */
@@ -28,7 +30,7 @@ class ExponentialBackoff
      * @param  int  $retries  [optional] Number of retries for a failed request.
      * @param  callable  $retryFunction  [optional] returns bool for whether or not to retry
      */
-    public function __construct($retries = null, callable $retryFunction = null)
+    public function __construct($retries = null, ?callable $retryFunction = null)
     {
         $this->retries = $retries !== null ? (int) $retries : 3;
         $this->retryFunction = $retryFunction;
@@ -40,11 +42,10 @@ class ExponentialBackoff
     /**
      * Executes the retry process.
      *
-     * @param  callable  $function
      * @param  array  $arguments  [optional]
      * @return mixed
      *
-     * @throws \Exception The last exception caught while retrying.
+     * @throws Exception The last exception caught while retrying.
      */
     public function execute(callable $function, array $arguments = [])
     {
@@ -55,7 +56,7 @@ class ExponentialBackoff
         while (true) {
             try {
                 return call_user_func_array($function, $arguments);
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 if ($this->retryFunction) {
                     if (! call_user_func($this->retryFunction, $exception)) {
                         throw $exception;
@@ -79,7 +80,6 @@ class ExponentialBackoff
     }
 
     /**
-     * @param  callable  $delayFunction
      * @return void
      */
     public function setDelayFunction(callable $delayFunction)

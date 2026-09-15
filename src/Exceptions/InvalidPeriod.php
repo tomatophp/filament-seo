@@ -7,8 +7,8 @@ use Exception;
 
 class InvalidPeriod extends Exception
 {
-    public static function startDateCannotBeAfterEndDate(DateTime $startDate, DateTime $endDate)
+    public static function startDateCannotBeAfterEndDate(DateTime $startDate, DateTime $endDate): self
     {
-        return new static("Start date `{$startDate->format('Y-m-d')}` cannot be after end date `{$endDate->format('Y-m-d')}`.");
+        return new self("Start date `{$startDate->format('Y-m-d')}` cannot be after end date `{$endDate->format('Y-m-d')}`.");
     }
 }
