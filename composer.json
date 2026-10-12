@@ -2,6 +2,7 @@
     "name": "tomatophp/filament-seo",
     "type": "library",
     "description": "Manage and generate SEO tags and integrate your website with Google SEO services",
+    "homepage": "https://tomatophp.com/en/plugins/filament-seo",
     "keywords": [
         "php",
         "laravel",
